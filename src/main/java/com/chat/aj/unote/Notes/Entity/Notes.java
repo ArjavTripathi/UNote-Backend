@@ -27,12 +27,21 @@ public class Notes {
 
     private String fileUrl;
 
+    @Column
+    private String fileName;      // original filename
+
+    @Column
+    private String fileType;      // MIME type
+
+    @Column
+    private Long fileSize;        // in bytes
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true) //TODO change to false once verified
     private Accounts user;
 
     @CreationTimestamp
