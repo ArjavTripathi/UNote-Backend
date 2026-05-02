@@ -20,7 +20,7 @@ public class ClassesService {
     }
 
     public Long createClass(ClassCreationDTO newClass) {
-        if(classesRepository.findByCodeOrName(newClass.getCode(), newClass.getName()).isEmpty()){
+        if(!classesRepository.findByCodeOrName(newClass.getCode(), newClass.getName()).isEmpty()){
             throw new DuplicateResourceException("Class by this code or name exists");
         }
 
