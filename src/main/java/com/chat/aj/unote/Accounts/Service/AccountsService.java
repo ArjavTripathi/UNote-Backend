@@ -29,14 +29,16 @@ public class AccountsService implements IAccountService {
 
     @Override
     public Accounts createAccount(CreateAccountRequest request) throws AlreadyExistsException {
-        return Optional.of(request)
-                .filter(account -> accountsRepository.existsByUsername(request.getUsername()))
-                .map(req -> {
-                    Accounts acc = new Accounts();
-                    acc.setUsername(request.getUsername());
-                    acc.setPassword(passwordEncoder.encode(request.getPassword()));
-                    return accountsRepository.save(acc);
-                }).orElseThrow(() -> new AlreadyExistsException("The account " + request.getUsername() + " already exists"));
+        if (accountsRepository.existsByUsername(request.getUsername())) {
+            throw new AlreadyExistsException(
+                    "The account " + request.getUsername() + " already exists"
+            );
+        }
+
+        Accounts acc = new Accounts();
+        acc.setUsername(request.getUsername());
+        acc.setPassword(passwordEncoder.encode(request.getPassword()));
+        return accountsRepository.save(acc);
     }
 
     @Override
