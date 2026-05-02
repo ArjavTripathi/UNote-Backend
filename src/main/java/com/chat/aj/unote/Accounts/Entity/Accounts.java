@@ -34,4 +34,5 @@ public class Accounts {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private String role = "ROLE_USER";
 }
