@@ -8,6 +8,7 @@ import com.chat.aj.unote.Notes.Repository.ClassesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,4 +39,7 @@ public class ClassesService {
                 .orElseThrow(() -> new ResourceNotFoundException("Class not found: " + name));
     }
 
+    public List<Classes> getAll() {
+        return classesRepository.findAll();
+    }
 }
