@@ -3,6 +3,7 @@ package com.chat.aj.unote.Notes.Entity;
 
 import com.chat.aj.unote.Accounts.Entity.Accounts;
 import com.chat.aj.unote.Notes.NoteType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,10 +43,12 @@ public class Notes {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", nullable = false)
+    @JsonIgnoreProperties("notes")
     private Unit unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"notes", "password", "createdAt", "updatedAt"})
     private Accounts user;
 
     @CreationTimestamp

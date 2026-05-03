@@ -27,5 +27,6 @@ public class Unit {
     private Classes myClass;
 
     @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("unit")
     private List<Notes> notes = new ArrayList<>();
 }
