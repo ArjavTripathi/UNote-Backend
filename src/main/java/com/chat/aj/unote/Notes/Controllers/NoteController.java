@@ -30,10 +30,11 @@ public class NoteController {
     public ResponseEntity<?> createNote(
             @RequestParam("file") MultipartFile file,
             @RequestParam("unitId") Long unitId,
-            @RequestParam("title") String title) throws IOException {
+            @RequestParam("title") String title,
+            @RequestParam("userId") Long userId) throws IOException {  // ADD THIS
 
         String fileUrl = r2Service.uploadFile(file);
-        Long id = noteService.createNote(title, fileUrl, unitId);
+        Long id = noteService.createNote(title, fileUrl, unitId, userId);
         return ResponseEntity.ok(Map.of("id", id, "fileUrl", fileUrl));
     }
 }
