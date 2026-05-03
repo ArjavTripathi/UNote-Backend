@@ -35,7 +35,7 @@ public class NoteController {
             Principal principal) throws IOException {  // ADD THIS
 
         String fileUrl = r2Service.uploadFile(file);
-        Long id = noteService.createNote(title, fileUrl, unitId, principal.getName());
+        Long id = noteService.createNote(title, fileUrl, unitId, principal.getName(), file);
         return ResponseEntity.ok(Map.of("id", id, "fileUrl", fileUrl));
     }
 }

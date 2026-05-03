@@ -10,6 +10,7 @@ import com.chat.aj.unote.Notes.Repository.NotesRepository;
 import com.chat.aj.unote.Notes.Repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -26,26 +27,40 @@ public class NoteService {
         this.accountsRepository = accountsRepository;
     }
 
-    public Long createNote(String title, String fileUrl, Long unitId, String name) {
+    public Long createNote(String title, String fileUrl, Long unitId, String name, MultipartFile file) {
         Unit unit = unitRepository.findById(unitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit", unitId));
 
         Accounts account = accountsRepository.findByUsername(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
 
-        Long userId = account.getId();
-
-        Accounts user = accountsRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
-
         Notes note = new Notes();
         note.setTitle(title);
         note.setFileUrl(fileUrl);
         note.setType(NoteType.PDF);
         note.setUnit(unit);
-        note.setUser(null);  // SET THE USER
-
+        note.setUser(account);
+        note.setFileName(file.getOriginalFilename());
+        note.setFileType(file.getContentType());
+        note.setFileSize(file.getSize());
+        note.setType(inferType(file.getContentType()));
         noteRepository.save(note);
         return note.getId();
+    }
+
+    private NoteType inferType(String contentType) {
+        if (contentType == null) return NoteType.TXTFILE;
+
+        return switch (contentType) {
+            case "application/pdf" -> NoteType.PDF;
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                 "application/vnd.ms-powerpoint" -> NoteType.PTX;
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                 "application/msword" -> NoteType.DOCX;
+            case "text/plain" -> NoteType.TXTFILE;
+            case "image/jpeg", "image/png", "image/gif", "image/webp" -> NoteType.IMAGE;
+            case "video/mp4", "video/mpeg", "video/quicktime", "video/webm" -> NoteType.VIDEO;
+            default -> NoteType.TXTFILE;
+        };
     }
 }
