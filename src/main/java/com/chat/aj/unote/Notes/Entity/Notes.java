@@ -4,12 +4,18 @@ package com.chat.aj.unote.Notes.Entity;
 import com.chat.aj.unote.Accounts.Entity.Accounts;
 import com.chat.aj.unote.Notes.NoteType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "notes")
+@Getter
+@Setter
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +44,7 @@ public class Notes {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "note", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VideoTimestamp> timestamps = new ArrayList<>(); // Comment feature for videos
 }
