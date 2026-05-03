@@ -85,7 +85,6 @@ public class LinkService {
         noteRepository.delete(note);
     }
 
-    // Auto detect type from URL
     private NoteType detectType(String url) {
         if (url.contains("youtube.com") || url.contains("youtu.be")) {
             return NoteType.YT;

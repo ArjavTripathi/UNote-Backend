@@ -6,6 +6,8 @@ import com.chat.aj.unote.Accounts.repository.AccountsRepository;
 import com.chat.aj.unote.Config.R2Service;
 import com.chat.aj.unote.Exceptions.ResourceNotFoundException;
 import com.chat.aj.unote.Exceptions.UnauthorizedException;
+import com.chat.aj.unote.Notes.DTO.NoteRequestDTO;
+import com.chat.aj.unote.Notes.DTO.TextEntryDTO;
 import com.chat.aj.unote.Notes.Entity.Notes;
 import com.chat.aj.unote.Notes.Entity.Unit;
 import com.chat.aj.unote.Notes.NoteType;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,16 +28,16 @@ public class NoteService {
     private final NotesRepository noteRepository;
     private final UnitRepository unitRepository;
     private final AccountsRepository accountsRepository;
-    private final AccountsService accountsService;
     private final R2Service r2Service;
+    private final ClassesService classesService;
 
     @Autowired
-    public NoteService(NotesRepository noteRepository, UnitRepository unitRepository, AccountsRepository accountsRepository, AccountsService accountsService, R2Service r2Service) {
+    public NoteService(NotesRepository noteRepository, UnitRepository unitRepository, AccountsRepository accountsRepository, R2Service r2Service, ClassesService classesService) {
         this.noteRepository = noteRepository;
         this.unitRepository = unitRepository;
         this.accountsRepository = accountsRepository;
-        this.accountsService = accountsService;
         this.r2Service = r2Service;
+        this.classesService = classesService;
     }
 
     public Long createNote(String title, String fileUrl, Long unitId, String name, MultipartFile file) {
@@ -83,5 +87,27 @@ public class NoteService {
         r2Service.deleteFile(note.get().getFileUrl());
 
         noteRepository.delete(note.get());
+    }
+
+    public List<Notes> getSpecificNotes(NoteRequestDTO noteReq) {
+        Optional<Unit> u = unitRepository.findByNameAndMyClass(noteReq.getUnitName(), classesService.findClass(noteReq.getClassName()));
+        if (u.isEmpty()) throw new ResourceNotFoundException("Unit or Class not found");
+        return noteRepository.findByUnit(u.get());
+    }
+
+    public Long createTextNote(TextEntryDTO textDTO, String name) {
+        Optional<Accounts> a = accountsRepository.findByUsername(name);
+        if (a.isEmpty()) throw new ResourceNotFoundException("Account Not Found");
+        Optional<Unit> u = unitRepository.findById(textDTO.getUnitId());
+        if (u.isEmpty()) throw new ResourceNotFoundException("Account Not Found");
+        Notes n = new Notes();
+        n.setCreatedAt(LocalDateTime.now());
+        n.setType(NoteType.TEXT);
+        n.setContent(textDTO.getContent());
+        n.setUser(a.get());
+        n.setUnit(u.get());
+        n.setTitle(textDTO.getTitle());
+        noteRepository.save(n);
+        return n.getId();
     }
 }
