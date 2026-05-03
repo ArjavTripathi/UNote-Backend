@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface VideoTimestampRepository extends JpaRepository<VideoTimestamp, Long> {
     List<VideoTimestamp> findByNoteId(Long noteId);
-    Optional<VideoTimestamp> findByCommentIdAndNoteId(Long commentId, Long noteId);
+    Optional<VideoTimestamp> findByCommentIdAndNote_Id(Long commentId, Long noteId);
 }

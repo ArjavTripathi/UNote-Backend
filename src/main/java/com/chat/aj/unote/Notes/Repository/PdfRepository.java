@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PdfRepository extends JpaRepository<PdfComment, Long> {
-    Optional<PdfComment> findByCommentIdAndNoteId(Long commentId, Long notesId);
-    List<PdfComment> findByNoteId(Long id);
+    Optional<PdfComment> findByCommentIdAndNote_Id(Long commentId, Long note_id);
+    List<PdfComment> findByNoteId(Long noteId);
 }

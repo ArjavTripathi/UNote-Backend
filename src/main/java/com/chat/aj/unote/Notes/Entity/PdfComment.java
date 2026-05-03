@@ -23,6 +23,9 @@ public class PdfComment {
     private int height;
     private int pageNumber;
 
+    @Column(nullable = false)
+    private String username;
+
     @Column(columnDefinition = "TEXT")
     private String comment;
 

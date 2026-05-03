@@ -17,11 +17,13 @@ public class VideoTimestamp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @Column(nullable = false)
-    private Double timestamp;
+    private double timestamp;
 
     @Column(columnDefinition = "TEXT")
     private String comment;
+
+    @Column(nullable = false)
+    private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id", nullable = false)
