@@ -30,15 +30,10 @@ public class JwtUtils {
         return null;
     }
 
-    public String generateToken(AccountsDetails userDetails){
-        String username = userDetails.getUsername();
-        String roles = userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.joining(","));
-
+    public String generateToken(AccountsDetails userDetails) {
         return Jwts.builder()
-                .subject(username)
-                .claim("roles", roles)
+                .subject(userDetails.getUsername())
+                .claim("id", userDetails.getId()) // store id in token
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(key())
@@ -56,17 +51,14 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public boolean validateToken(String authToken){
+    public boolean validateToken(String authToken) {
         try {
             Jwts.parser().verifyWith((SecretKey) key())
                     .build().parseSignedClaims(authToken);
             return true;
-        } catch (JwtException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
     }
 }
