@@ -10,6 +10,7 @@ import com.chat.aj.unote.Notes.Repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,9 @@ public class UnitService {
         Optional<Unit> u = unitRepository.findByNameAndMyClass(uDTO.getName(), classesService.findClass(uDTO.getClassName()));
         if (u.isEmpty()) throw new ResourceNotFoundException("Not Found");
         unitRepository.delete(u.get());
+    }
+
+    public List<Unit> getAll() {
+        return unitRepository.findAll();
     }
 }

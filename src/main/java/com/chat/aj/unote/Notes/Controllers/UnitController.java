@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/app/v1/units")
@@ -36,5 +37,10 @@ public class UnitController {
     public ResponseEntity<?> deleteUnit(@RequestBody UnitCreationDTO unitDelete){
         unitService.deleteUnit(unitDelete);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Unit>> getAll(){
+        return ResponseEntity.ok(unitService.getAll());
     }
 }

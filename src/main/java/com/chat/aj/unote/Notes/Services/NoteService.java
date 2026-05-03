@@ -110,4 +110,8 @@ public class NoteService {
         noteRepository.save(n);
         return n.getId();
     }
+
+    public List<Notes> getALl() {
+        return noteRepository.findAll();
+    }
 }

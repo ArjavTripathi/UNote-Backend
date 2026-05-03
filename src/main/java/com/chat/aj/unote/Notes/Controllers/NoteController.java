@@ -4,6 +4,7 @@ import com.chat.aj.unote.Config.R2Service;
 import com.chat.aj.unote.Notes.DTO.NoteRequestDTO;
 import com.chat.aj.unote.Notes.DTO.TextEntryDTO;
 import com.chat.aj.unote.Notes.Entity.Notes;
+import com.chat.aj.unote.Notes.Repository.NotesRepository;
 import com.chat.aj.unote.Notes.Services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -44,6 +45,11 @@ public class NoteController {
         String fileUrl = r2Service.uploadFile(file);
         Long id = noteService.createNote(title, fileUrl, unitId, principal.getName(), file);
         return ResponseEntity.ok(Map.of("id", id, "fileUrl", fileUrl));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Notes>> getAllNotes(){
+        return ResponseEntity.ok(noteService.getALl());
     }
 
     @DeleteMapping
