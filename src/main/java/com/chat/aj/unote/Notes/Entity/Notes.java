@@ -4,12 +4,16 @@ package com.chat.aj.unote.Notes.Entity;
 import com.chat.aj.unote.Accounts.Entity.Accounts;
 import com.chat.aj.unote.Notes.NoteType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notes")
+@Getter
+@Setter
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
