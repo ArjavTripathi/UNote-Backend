@@ -38,7 +38,6 @@ public class VideoTimestampService {
         timestamp.setComment(request.getComment());
         timestamp.setUsername(username);
         timestamp.setNote(note);
-
         return mapToDto(repository.save(timestamp));
     }
 
