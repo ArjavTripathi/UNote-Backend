@@ -24,6 +24,9 @@ public class R2Service {
     @Value("${cloudflare.r2.account-id}")
     private String accountId;
 
+    @Value("${cloudflare.r2.public-url}")
+    private String publicUrl;
+
     public R2Service(S3Client r2Client) {
         this.r2Client = r2Client;
     }
@@ -38,7 +41,11 @@ public class R2Service {
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "text/plain",
             "image/jpeg",
-            "image/png"
+            "image/png",
+            "video/quicktime",
+            "video/mp4",
+            "video/mpeg",
+            "video/webm"
     );
 
 
@@ -60,8 +67,7 @@ public class R2Service {
                 RequestBody.fromBytes(file.getBytes())
         );
 
-        // Returns the public URL
-        return "https://" + accountId + ".r2.cloudflarestorage.com/" + bucket + "/" + key;
+        return publicUrl + "/" + key;
     }
 
     public void deleteFile(String fileUrl) {
