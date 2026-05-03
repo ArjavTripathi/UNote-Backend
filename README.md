@@ -6,9 +6,9 @@
    * spring.datasource.password
    * spring.datasource.username
    * spring.datasource.driver-class-name
-   * cloudflare.r2.access-key=${access_key}
-   * cloudflare.r2.secret-key=${secret_key}
-   * cloudflare.r2.account-id=${account_id}
-   * cloudflare.r2.bucket=${bucket}
-   * cloudflare.r2.public-url=${public_url}
+   * cloudflare.r2.access-key
+   * cloudflare.r2.secret-key
+   * cloudflare.r2.account-id
+   * cloudflare.r2.bucket
+   * cloudflare.r2.public-url
 3. Running Application should work!
