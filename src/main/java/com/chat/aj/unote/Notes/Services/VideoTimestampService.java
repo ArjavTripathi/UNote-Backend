@@ -1,6 +1,6 @@
 package com.chat.aj.unote.Notes.Services;
 
-import com.chat.aj.unote.Accounts.Exceptions.ResourceNotFoundException;
+import com.chat.aj.unote.Exceptions.ResourceNotFoundException;
 import com.chat.aj.unote.Notes.DTO.VideoTimestampDto;
 import com.chat.aj.unote.Notes.Entity.Notes;
 import com.chat.aj.unote.Notes.NoteType;

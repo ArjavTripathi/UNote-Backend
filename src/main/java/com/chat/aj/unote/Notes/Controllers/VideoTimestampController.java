@@ -1,6 +1,6 @@
 package com.chat.aj.unote.Notes.Controllers;
 
-import com.chat.aj.unote.Accounts.Exceptions.ResourceNotFoundException;
+import com.chat.aj.unote.Exceptions.ResourceNotFoundException;
 import com.chat.aj.unote.Accounts.response.ApiResponse;
 import com.chat.aj.unote.Notes.Services.VideoTimestampService;
 import com.chat.aj.unote.Notes.request.CreateTimestampRequest;
