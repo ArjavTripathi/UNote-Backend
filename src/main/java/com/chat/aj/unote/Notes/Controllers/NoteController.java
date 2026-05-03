@@ -5,10 +5,7 @@ import com.chat.aj.unote.Notes.Services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,5 +34,11 @@ public class NoteController {
         String fileUrl = r2Service.uploadFile(file);
         Long id = noteService.createNote(title, fileUrl, unitId, principal.getName(), file);
         return ResponseEntity.ok(Map.of("id", id, "fileUrl", fileUrl));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteNote(@RequestParam("id") Long noteId, Principal principal){
+        noteService.deleteNote(noteId, principal.getName());
+        return ResponseEntity.ok("Deleted");
     }
 }
