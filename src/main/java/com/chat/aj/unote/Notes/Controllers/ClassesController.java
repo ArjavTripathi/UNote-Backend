@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/app/v1/classes")
@@ -28,5 +30,10 @@ public class ClassesController {
     public ResponseEntity<?> createClass(@RequestBody ClassCreationDTO newClass){
         Long id = classService.createClass(newClass);
         return ResponseEntity.ok(id);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Classes>> getAllClasses(){
+        return ResponseEntity.ok(classService.getAll());
     }
 }
