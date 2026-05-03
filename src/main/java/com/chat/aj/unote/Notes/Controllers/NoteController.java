@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Map;
 
 @RestController
@@ -31,10 +32,10 @@ public class NoteController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("unitId") Long unitId,
             @RequestParam("title") String title,
-            @RequestParam("userId") Long userId) throws IOException {  // ADD THIS
+            Principal principal) throws IOException {  // ADD THIS
 
         String fileUrl = r2Service.uploadFile(file);
-        Long id = noteService.createNote(title, fileUrl, unitId, userId);
+        Long id = noteService.createNote(title, fileUrl, unitId, principal.getName());
         return ResponseEntity.ok(Map.of("id", id, "fileUrl", fileUrl));
     }
 }

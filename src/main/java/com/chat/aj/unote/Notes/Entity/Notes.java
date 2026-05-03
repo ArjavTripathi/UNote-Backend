@@ -45,7 +45,7 @@ public class Notes {
     private Unit unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = true) //TODO change to false once verified
+    @JoinColumn(name = "user_id", nullable = false)
     private Accounts user;
 
     @CreationTimestamp
