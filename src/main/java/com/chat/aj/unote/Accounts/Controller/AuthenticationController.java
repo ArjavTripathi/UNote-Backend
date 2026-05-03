@@ -56,5 +56,4 @@ public class AuthenticationController {
             return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
         }
     }
-
 }
