@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/app/v1/units")
 public class UnitController {
@@ -19,7 +21,7 @@ public class UnitController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getUnits(@RequestBody GetUnitDTO unitRequest){
+    public ResponseEntity<?> getUnits(@RequestBody GetUnitDTO unitRequest, Principal principal){
         Unit u = unitService.getUnits(unitRequest);
         return ResponseEntity.ok(u);
     }
